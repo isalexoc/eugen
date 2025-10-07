@@ -1,0 +1,51 @@
+{
+  "folders": [
+    {
+      "name": "Red Lotus International",
+      "path": "."
+    },
+    {
+      "name": "Documentation",
+      "path": "./docs"
+    },
+    {
+      "name": "Tests",
+      "path": "./tests"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "cursor.ai.workspaceInstructions": true,
+    "cursor.ai.includeWorkspaceFiles": true
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-eslint",
+      "formulahendry.auto-rename-tag",
+      "christian-kohler.path-intellisense",
+      "ms-vscode.vscode-json",
+      "dsznajder.es7-react-js-snippets",
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-eslint",
+      "formulahendry.auto-rename-tag",
+      "christian-kohler.path-intellisense",
+      "ms-vscode.vscode-json",
+      "rangav.vscode-thunder-client",
+      "usernamehw.errorlens",
+      "steoates.autoimport-es6-ts",
+      "rbbit.typescript-hero",
+      "austenc.tailwind-docs",
+      "pulkitgangwar.nextjs-snippets"
+    ]
+  }
+}

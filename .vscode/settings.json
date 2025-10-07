@@ -1,0 +1,63 @@
+{
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/.next": true
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "cursor.ai.workspaceInstructions": true,
+  "cursor.ai.includeWorkspaceFiles": true,
+  "cursor.ai.includeGitContext": true,
+  "cursor.ai.includeOpenFiles": true,
+  "cursor.ai.maxContextFiles": 20,
+  "cursor.ai.contextFileExtensions": [
+    ".ts", ".tsx", ".js", ".jsx", ".md", ".json"
+  ],
+  "cursor.ai.contextInclude": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "docs/**/*.md",
+    "*.md"
+  ],
+  "cursor.ai.contextExclude": [
+    "node_modules/**",
+    ".next/**",
+    "dist/**",
+    "build/**"
+  ]
+}
