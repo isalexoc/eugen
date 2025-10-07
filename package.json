@@ -23,8 +23,8 @@
     "@clerk/nextjs": "^6.5.0",
     "@stripe/stripe-js": "^4.8.0",
     "stripe": "^17.3.0",
-    "next-sanity": "^8.0.0",
-    "@sanity/client": "^7.0.0",
+    "next-sanity": "^8.5.5",
+    "@sanity/client": "^7.11.2",
     "@sanity/image-url": "^1.0.2",
     "@sentry/nextjs": "^8.45.0",
     "lucide-react": "^0.468.0",
@@ -42,8 +42,7 @@
     "date-fns": "^4.1.0",
     "sharp": "^0.33.5",
     "cloudinary": "^2.5.0",
-    "cloudinary-react": "^1.8.0",
-    "next-cloudinary": "^5.0.0"
+    "next-cloudinary": "^6.16.0"
   },
   "devDependencies": {
     "typescript": "^5",
