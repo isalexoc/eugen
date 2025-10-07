@@ -61,7 +61,7 @@ export const Footer: React.FC = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="mb-6 flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600">
+               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-800 to-green-700">
                 <span className="text-xl font-bold text-white">RL</span>
               </div>
               <div>
@@ -78,17 +78,17 @@ export const Footer: React.FC = () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-red-600" />
+                 <MapPin className="h-5 w-5 text-amber-600" />
                 <span className="text-gray-300">
                   Stafford, VA, United States
                 </span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-red-600" />
+                 <Phone className="h-5 w-5 text-amber-600" />
                 <span className="text-gray-300">+1 (555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-red-600" />
+                <Mail className="h-5 w-5 text-amber-600" />
                 <span className="text-gray-300">
                   info@redlotusinternational.com
                 </span>
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-400 transition-colors duration-200 hover:text-red-600"
+                    className="text-gray-400 transition-colors duration-200 hover:text-amber-600"
                     aria-label={item.name}
                   >
                     <Icon className="h-6 w-6" />
@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="text-gray-300 transition-colors duration-200 hover:text-amber-600"
                   >
                     {item.name}
                   </Link>
@@ -138,7 +138,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="text-gray-300 transition-colors duration-200 hover:text-amber-600"
                   >
                     {item.name}
                   </Link>
@@ -155,7 +155,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="text-gray-300 transition-colors duration-200 hover:text-amber-600"
                   >
                     {item.name}
                   </Link>
@@ -177,9 +177,9 @@ export const Footer: React.FC = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-white placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-red-600 focus:outline-none"
+                className="flex-1 rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-white placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-amber-600 focus:outline-none"
               />
-              <button className="rounded-lg bg-red-600 px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-red-700">
+              <button className="rounded-lg bg-gradient-to-r from-amber-800 to-green-700 px-6 py-2 font-medium text-white transition-all duration-200 hover:from-amber-900 hover:to-green-800">
                 Subscribe
               </button>
             </div>

@@ -44,12 +44,12 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-red-50 to-white py-20 lg:py-32">
+      <section className="relative bg-gradient-to-br from-amber-50 to-warm-cream py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Global Trade Solutions for
-              <span className="text-red-600 block">Premium Coffee & Matcha</span>
+              <span className="text-amber-800 block">Premium Coffee & Matcha</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Red Lotus International LLC delivers excellence in every container, 
@@ -59,13 +59,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="bg-red-600 text-white px-8 py-4 rounded-lg hover:bg-red-700 transition-colors duration-200 font-semibold text-lg"
+                className="bg-gradient-to-r from-amber-800 to-green-700 text-white px-8 py-4 rounded-lg hover:from-amber-900 hover:to-green-800 transition-all duration-200 font-semibold text-lg"
               >
                 Get Quote
               </Link>
               <Link
                 href="/products"
-                className="border-2 border-red-600 text-red-600 px-8 py-4 rounded-lg hover:bg-red-600 hover:text-white transition-colors duration-200 font-semibold text-lg"
+                className="border-2 border-amber-800 text-amber-800 px-8 py-4 rounded-lg hover:bg-amber-800 hover:text-white transition-colors duration-200 font-semibold text-lg"
               >
                 View Products
               </Link>
@@ -95,8 +95,8 @@ export default function Home() {
                   key={index}
                   className="text-center p-6 rounded-lg hover:shadow-lg transition-shadow duration-200"
                 >
-                  <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8 text-red-600" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="h-8 w-8 text-amber-700" />
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
                     {feature.title}
@@ -112,25 +112,25 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-red-600">
+      <section className="py-20 bg-gradient-to-r from-amber-800 to-green-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to Start Your Global Trade Journey?
           </h2>
-          <p className="text-xl text-red-100 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-amber-100 mb-8 max-w-3xl mx-auto">
             Join hundreds of satisfied clients who trust Red Lotus International
             for their coffee and tea import needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
-              className="bg-white text-red-600 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-200 font-semibold text-lg"
+              className="bg-white text-amber-800 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-200 font-semibold text-lg"
             >
               Contact Us Today
             </Link>
             <Link
               href="/about"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-red-600 transition-colors duration-200 font-semibold text-lg"
+              className="border-2 border-white text-white px-8 py-4 rounded-lg hover:bg-white hover:text-amber-800 transition-colors duration-200 font-semibold text-lg"
             >
               Learn More
             </Link>

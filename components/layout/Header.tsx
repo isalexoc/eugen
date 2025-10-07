@@ -55,7 +55,7 @@ export const Header: React.FC = () => {
   return (
     <>
       {/* Top Bar */}
-      <div className="bg-red-600 py-2 text-sm text-white">
+      <div className="bg-amber-800 py-2 text-sm text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
@@ -88,7 +88,7 @@ export const Header: React.FC = () => {
               <Link href="/" className="flex items-center space-x-3">
                 <div className="flex items-center space-x-3">
                   {/* Red Lotus Logo Placeholder */}
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-amber-800 to-green-700">
                     <span className="text-xl font-bold text-white">RL</span>
                   </div>
                   <div className="hidden sm:block">
@@ -111,8 +111,8 @@ export const Header: React.FC = () => {
                   href={item.href}
                   className={`rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive(item.href)
-                      ? "bg-red-50 text-red-600"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-red-600"
+                      ? "bg-amber-50 text-amber-800"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-amber-800"
                   }`}
                 >
                   {item.name}
@@ -130,7 +130,7 @@ export const Header: React.FC = () => {
               </Link>
               <Link
                 href="/contact"
-                className="rounded-lg bg-red-600 px-6 py-2 font-medium text-white transition-colors duration-200 hover:bg-red-700"
+                className="rounded-lg bg-gradient-to-r from-amber-800 to-green-700 px-6 py-2 font-medium text-white transition-all duration-200 hover:from-amber-900 hover:to-green-800"
               >
                 Get Quote
               </Link>
@@ -140,7 +140,7 @@ export const Header: React.FC = () => {
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="rounded-md p-2 text-gray-700 hover:text-red-600 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none"
+                className="rounded-md p-2 text-gray-700 hover:text-amber-800 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:outline-none"
                 aria-label="Toggle mobile menu"
               >
                 {isMobileMenuOpen ? (
@@ -163,8 +163,8 @@ export const Header: React.FC = () => {
                   href={item.href}
                   className={`block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 ${
                     isActive(item.href)
-                      ? "bg-red-50 text-red-600"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-red-600"
+                      ? "bg-amber-50 text-amber-800"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-amber-800"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -174,14 +174,14 @@ export const Header: React.FC = () => {
               <div className="border-t border-gray-200 pt-4 pb-2">
                 <Link
                   href="/newsletter"
-                  className="block px-3 py-2 text-gray-700 transition-colors duration-200 hover:text-red-600"
+                  className="block px-3 py-2 text-gray-700 transition-colors duration-200 hover:text-amber-800"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Newsletter
                 </Link>
                 <Link
                   href="/contact"
-                  className="mx-3 mt-2 block rounded-lg bg-red-600 px-6 py-2 text-center font-medium text-white transition-colors duration-200 hover:bg-red-700"
+                  className="mx-3 mt-2 block rounded-lg bg-gradient-to-r from-amber-800 to-green-700 px-6 py-2 text-center font-medium text-white transition-all duration-200 hover:from-amber-900 hover:to-green-800"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Get Quote
