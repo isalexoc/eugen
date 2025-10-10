@@ -1,65 +1,35 @@
-import {DocumentTextIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { defineField, defineType } from "sanity";
 
 export const postType = defineType({
-  name: 'post',
-  title: 'Post',
-  type: 'document',
-  icon: DocumentTextIcon,
+  name: "post",
+  title: "Post",
+  type: "document",
   fields: [
     defineField({
-      name: 'title',
-      type: 'string',
+      name: "title",
+      type: "string",
+      validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-      },
+      name: "slug",
+      type: "slug",
+      options: { source: "title" },
+      validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'author',
-      type: 'reference',
-      to: {type: 'author'},
+      name: "publishedAt",
+      type: "datetime",
+      initialValue: () => new Date().toISOString(),
+      validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'mainImage',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-        })
-      ]
+      name: "image",
+      type: "image",
     }),
     defineField({
-      name: 'categories',
-      type: 'array',
-      of: [defineArrayMember({type: 'reference', to: {type: 'category'}})],
-    }),
-    defineField({
-      name: 'publishedAt',
-      type: 'datetime',
-    }),
-    defineField({
-      name: 'body',
-      type: 'blockContent',
+      name: "body",
+      type: "array",
+      of: [{ type: "block" }],
     }),
   ],
-  preview: {
-    select: {
-      title: 'title',
-      author: 'author.name',
-      media: 'mainImage',
-    },
-    prepare(selection) {
-      const {author} = selection
-      return {...selection, subtitle: author && `by ${author}`}
-    },
-  },
-})
+});
