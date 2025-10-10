@@ -110,11 +110,11 @@ export const portableTextComponents: PortableTextComponents = {
     },
   },
   // Add unknown type handler to prevent errors
-  unknownType: ({ value }) => {
+  unknownType: () => {
     return null
   },
   // Add unknown mark handler
-  unknownMark: ({ value, children }) => {
+  unknownMark: ({ children }) => {
     return <span>{children}</span>
   },
   // Add hardBreak handler
