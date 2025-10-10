@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import Headroom from "headroom.js";
+import { Mail, MapPin, Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, Mail, MapPin } from "lucide-react";
-import Headroom from "headroom.js";
+import React, { useEffect, useRef } from "react";
 
 /**
  * Header component for Red Lotus International LLC
@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>info@redlotusinternational.com</span>
+                <span>info@redlotusintl.com</span>
               </div>
             </div>
             <div className="hidden md:flex items-center space-x-2">
@@ -109,11 +109,10 @@ export const Header: React.FC = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    isActive(item.href)
-                      ? "text-red-600 bg-red-50"
-                      : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
-                  }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${isActive(item.href)
+                    ? "text-red-600 bg-red-50"
+                    : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+                    }`}
                 >
                   {item.name}
                 </Link>
@@ -161,11 +160,10 @@ export const Header: React.FC = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
-                    isActive(item.href)
-                      ? "text-red-600 bg-red-50"
-                      : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
-                  }`}
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${isActive(item.href)
+                    ? "text-red-600 bg-red-50"
+                    : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
+                    }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.name}

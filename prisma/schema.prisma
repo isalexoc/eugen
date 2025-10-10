@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  firstName   String?
+  lastName    String?
+  status      SubscriberStatus @default(ACTIVE)
+  tags        String[]
+  source      String? // Where they subscribed from (footer, popup, etc.)
+  mailerLiteId String? @unique // MailerLite subscriber ID
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  campaignSubscriptions CampaignSubscription[]
+  emailLogs             EmailLog[]
+
+  @@map("subscribers")
+}
+
+model EmailTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  subject     String
+  htmlContent String
+  textContent String?
+  variables   Json? // Template variables like {{firstName}}
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  campaigns Campaign[]
+
+  @@map("email_templates")
+}
+
+model AutomationWorkflow {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  triggerType   TriggerType
+  triggerConfig Json // Configuration for the trigger
+  steps         Json // Workflow steps configuration
+  status        WorkflowStatus @default(DRAFT)
+  isActive      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  campaigns Campaign[]
+
+  @@map("automation_workflows")
+}
+
+model Campaign {
+  id            String   @id @default(cuid())
+  name          String
+  description   String?
+  templateId    String
+  workflowId    String?
+  status        CampaignStatus @default(DRAFT)
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+  stats         Json? // Campaign statistics
+  mailerLiteId  String? // MailerLite campaign ID
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  template              EmailTemplate      @relation(fields: [templateId], references: [id])
+  workflow              AutomationWorkflow? @relation(fields: [workflowId], references: [id])
+  campaignSubscriptions CampaignSubscription[]
+  emailLogs             EmailLog[]
+
+  @@map("campaigns")
+}
+
+model CampaignSubscription {
+  id          String   @id @default(cuid())
+  campaignId  String
+  subscriberId String
+  status      SubscriptionStatus @default(PENDING)
+  sentAt      DateTime?
+  openedAt    DateTime?
+  clickedAt   DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  campaign   Campaign   @relation(fields: [campaignId], references: [id])
+  subscriber Subscriber @relation(fields: [subscriberId], references: [id])
+
+  @@unique([campaignId, subscriberId])
+  @@map("campaign_subscriptions")
+}
+
+model EmailLog {
+  id          String   @id @default(cuid())
+  subscriberId String
+  campaignId  String?
+  type        EmailType
+  status      EmailStatus
+  subject     String?
+  error       String?
+  sentAt      DateTime @default(now())
+
+  // Relations
+  subscriber Subscriber @relation(fields: [subscriberId], references: [id])
+  campaign   Campaign?  @relation(fields: [campaignId], references: [id])
+
+  @@map("email_logs")
+}
+
+// Enums
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+  COMPLAINED
+}
+
+enum TriggerType {
+  IMMEDIATE
+  SCHEDULED
+  EVENT_BASED
+  SUBSCRIBER_ADDED
+  SUBSCRIBER_TAGGED
+}
+
+enum WorkflowStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+enum SubscriptionStatus {
+  PENDING
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  FAILED
+}
+
+enum EmailType {
+  WELCOME
+  NEWSLETTER
+  AUTOMATION
+  TRANSACTIONAL
+  CAMPAIGN
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  DELIVERED
+  OPENED
+  CLICKED
+  BOUNCED
+  FAILED
+}

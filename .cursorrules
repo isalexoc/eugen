@@ -1,0 +1,193 @@
+# Next.js App Router Project Rules
+
+## File Structure Requirements
+
+### CRITICAL: Always use src/ directory structure
+- ALL source code MUST be placed in the `src/` directory
+- NEVER create files in the root directory (except config files)
+- The project uses Next.js 13+ App Router with src/ directory structure
+
+### Required Directory Structure:
+```
+src/
+├── app/                    # Next.js App Router pages and API routes
+│   ├── api/               # API routes (route.ts files)
+│   ├── (routes)/          # Page routes
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   ├── loading.tsx        # Loading UI
+│   ├── error.tsx          # Error UI
+│   └── not-found.tsx      # 404 page
+├── components/            # React components
+│   ├── ui/               # Reusable UI components
+│   ├── forms/            # Form components
+│   ├── layout/           # Layout components
+│   └── [feature]/        # Feature-specific components
+├── lib/                  # Utility libraries and configurations
+│   ├── services/         # External service integrations
+│   ├── types/            # TypeScript type definitions
+│   └── utils/            # Utility functions
+├── hooks/                # Custom React hooks
+├── styles/               # Global styles and CSS
+└── types/                # Global TypeScript types
+```
+
+### Root Directory (config files only):
+```
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+├── tailwind.config.js
+├── .env.local
+├── .gitignore
+├── .cursorrules
+├── prisma/
+└── public/
+```
+
+## File Placement Rules
+
+### 1. API Routes
+- MUST be in `src/app/api/[route]/route.ts`
+- Example: `src/app/api/newsletter/subscribe/route.ts`
+- Export HTTP method handlers (GET, POST, PUT, DELETE, etc.)
+
+### 2. Pages
+- MUST be in `src/app/[route]/page.tsx`
+- Example: `src/app/newsletter/page.tsx`
+- Export default React component
+
+### 3. Components
+- MUST be in `src/components/[category]/[ComponentName].tsx`
+- Use PascalCase for component names
+- Group by feature or type (ui, forms, layout, etc.)
+
+### 4. Utilities and Services
+- MUST be in `src/lib/[category]/[filename].ts`
+- Services go in `src/lib/services/`
+- Types go in `src/lib/types/`
+- Utils go in `src/lib/utils/`
+
+### 5. Custom Hooks
+- MUST be in `src/hooks/use[Name].ts`
+- Use camelCase starting with "use"
+
+## Import Path Rules
+
+### Always use @/ alias for src/ imports:
+```typescript
+// ✅ CORRECT
+import { Component } from '@/components/ui/Button'
+import { api } from '@/lib/services/api'
+import { UserType } from '@/lib/types/user'
+
+// ❌ WRONG - Don't use relative paths for src/ files
+import { Component } from '../../../components/ui/Button'
+import { api } from '../../lib/services/api'
+```
+
+### External imports first, then @/ imports:
+```typescript
+// ✅ CORRECT
+import React from 'react'
+import { NextRequest } from 'next/server'
+import { Button } from '@/components/ui/Button'
+import { api } from '@/lib/services/api'
+```
+
+## Naming Conventions
+
+### Files and Directories:
+- Components: PascalCase (`NewsletterSignup.tsx`)
+- Hooks: camelCase with "use" prefix (`useNewsletter.ts`)
+- Utilities: camelCase (`formatDate.ts`)
+- Types: PascalCase (`NewsletterTypes.ts`)
+- Directories: kebab-case (`newsletter-signup/`)
+
+### API Routes:
+- Use kebab-case for route names
+- Example: `/api/newsletter/subscribe` → `src/app/api/newsletter/subscribe/route.ts`
+
+## Code Organization Rules
+
+### 1. Component Structure:
+```typescript
+// ✅ CORRECT component structure
+'use client' // Only if needed
+
+import React from 'react'
+import { ComponentProps } from '@/lib/types/component'
+
+interface ComponentNameProps {
+  // Props definition
+}
+
+export function ComponentName({ prop }: ComponentNameProps) {
+  // Component logic
+  return (
+    // JSX
+  )
+}
+```
+
+### 2. API Route Structure:
+```typescript
+// ✅ CORRECT API route structure
+import { NextRequest, NextResponse } from 'next/server'
+import { validateData } from '@/lib/utils/validation'
+
+export async function POST(request: NextRequest) {
+  try {
+    // API logic
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    return NextResponse.json({ error: 'Message' }, { status: 500 })
+  }
+}
+```
+
+## Error Prevention
+
+### NEVER:
+- Create files in root directory (except config files)
+- Use relative imports for src/ files
+- Mix root and src/ directory structures
+- Create duplicate component directories
+- Place API routes outside `src/app/api/`
+
+### ALWAYS:
+- Use `@/` alias for all src/ imports
+- Place new files in appropriate src/ subdirectories
+- Follow the established directory structure
+- Use TypeScript for all new files
+- Export components as named exports
+
+## Quick Reference
+
+### Common Commands:
+- New component: Create in `src/components/[category]/`
+- New API route: Create in `src/app/api/[route]/route.ts`
+- New page: Create in `src/app/[route]/page.tsx`
+- New hook: Create in `src/hooks/use[Name].ts`
+- New utility: Create in `src/lib/utils/[name].ts`
+
+### Import Examples:
+```typescript
+// Components
+import { Button } from '@/components/ui/Button'
+import { NewsletterSignup } from '@/components/forms/NewsletterSignup'
+
+// API calls
+import { api } from '@/lib/services/api'
+
+// Types
+import { User } from '@/lib/types/user'
+
+// Hooks
+import { useNewsletter } from '@/hooks/useNewsletter'
+
+// Utils
+import { formatDate } from '@/lib/utils/date'
+```
+
+Remember: When in doubt, place files in the `src/` directory structure and use the `@/` alias for imports!

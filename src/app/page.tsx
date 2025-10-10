@@ -1,3 +1,4 @@
+import BlogPreview from "@/components/sections/BlogPreview";
 import { Award, Coffee, Globe, Leaf, Shield, Truck } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -52,8 +53,8 @@ export default function Home() {
               <span className="text-amber-800 block">Premium Coffee & Matcha</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Red Lotus International LLC delivers excellence in every container, 
-              connecting the world&apos;s finest coffee beans and matcha tea from Japan, 
+              Red Lotus International LLC delivers excellence in every container,
+              connecting the world&apos;s finest coffee beans and matcha tea from Japan,
               Vietnam, and China to clients worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -110,6 +111,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Blog Preview Section */}
+      <BlogPreview />
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-amber-800 to-green-700">
