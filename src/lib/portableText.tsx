@@ -41,13 +41,10 @@ export const portableTextComponents: PortableTextComponents = {
   },
   types: {
     image: ({ value }) => {
-      // Debug: Log the image value to see what we're getting
-      console.log('🖼️ Image value from Sanity:', value)
-
       // Handle Sanity image structure - check for asset reference or direct asset
       let imageUrl = null
-      let altText = value?.alt || value?.caption || ''
-
+      const altText = value?.alt || value?.caption || ''
+      
       // Check if it's a Sanity asset reference
       if (value?.asset?._ref) {
         // This is a Sanity asset reference, we need to construct the URL
@@ -57,7 +54,7 @@ export const portableTextComponents: PortableTextComponents = {
         const parts = cleanRef.split('-')
         const lastPart = parts[parts.length - 1] // This should be the extension
         const idPart = parts.slice(0, -1).join('-') // Everything except the last part
-
+        
         imageUrl = `https://cdn.sanity.io/images/agex08j3/production/${idPart}.${lastPart}`
       } else if (value?.asset?.url) {
         // Direct asset URL
@@ -66,23 +63,9 @@ export const portableTextComponents: PortableTextComponents = {
         // Direct URL
         imageUrl = value.url
       }
-
-      console.log('🖼️ Extracted image URL:', imageUrl)
-      console.log('🖼️ Alt text:', altText)
-
+      
       if (!imageUrl) {
-        console.log('❌ No image URL found, returning null')
-        return (
-          <div className="my-6 p-4 bg-red-100 border border-red-300 rounded">
-            <p className="text-red-700">Image could not be loaded - no URL found</p>
-            <details className="mt-2">
-              <summary className="cursor-pointer text-sm">Debug Info</summary>
-              <pre className="text-xs mt-2 overflow-auto">
-                {JSON.stringify(value, null, 2)}
-              </pre>
-            </details>
-          </div>
-        )
+        return null
       }
 
       return (
@@ -95,12 +78,6 @@ export const portableTextComponents: PortableTextComponents = {
             className="w-full h-auto rounded-lg shadow-md"
             style={{ objectFit: 'cover' }}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={(e) => {
-              console.error('❌ Image failed to load:', imageUrl, e)
-            }}
-            onLoad={() => {
-              console.log('✅ Image loaded successfully:', imageUrl)
-            }}
           />
           {value?.caption && (
             <p className="text-sm text-gray-500 mt-2 text-center italic">{value.caption}</p>
