@@ -44,7 +44,7 @@ export const portableTextComponents: PortableTextComponents = {
       // Handle Sanity image structure - check for asset reference or direct asset
       let imageUrl = null
       const altText = value?.alt || value?.caption || ''
-      
+
       // Check if it's a Sanity asset reference
       if (value?.asset?._ref) {
         // This is a Sanity asset reference, we need to construct the URL
@@ -54,7 +54,7 @@ export const portableTextComponents: PortableTextComponents = {
         const parts = cleanRef.split('-')
         const lastPart = parts[parts.length - 1] // This should be the extension
         const idPart = parts.slice(0, -1).join('-') // Everything except the last part
-        
+
         imageUrl = `https://cdn.sanity.io/images/agex08j3/production/${idPart}.${lastPart}`
       } else if (value?.asset?.url) {
         // Direct asset URL
@@ -63,7 +63,7 @@ export const portableTextComponents: PortableTextComponents = {
         // Direct URL
         imageUrl = value.url
       }
-      
+
       if (!imageUrl) {
         return null
       }
