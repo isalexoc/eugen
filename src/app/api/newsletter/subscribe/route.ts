@@ -29,21 +29,76 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        // Update in MailerLite
+        // Update in MailerLite - try to update first, if fails, create new subscriber
         try {
           const mailerLite = getMailerLiteService();
-          await mailerLite.updateSubscriber(validatedData.email, {
-            name: validatedData.firstName
-              ? `${validatedData.firstName} ${validatedData.lastName || ""}`.trim()
-              : undefined,
-            fields: {
-              first_name: validatedData.firstName,
-              last_name: validatedData.lastName,
-              source: validatedData.source,
-            },
-          });
+
+          // First, try to get the subscriber to see if they exist
+          const existingMailerLiteSubscriber = await mailerLite.getSubscriber(
+            validatedData.email
+          );
+
+          if (existingMailerLiteSubscriber) {
+            // Subscriber exists, update them
+            await mailerLite.updateSubscriber(validatedData.email, {
+              name: validatedData.firstName
+                ? `${validatedData.firstName} ${validatedData.lastName || ""}`.trim()
+                : undefined,
+              fields: {
+                first_name: validatedData.firstName,
+                last_name: validatedData.lastName,
+                source: validatedData.source,
+              },
+            });
+            console.log("MailerLite subscriber updated successfully");
+          } else {
+            // Subscriber doesn't exist in MailerLite, create a new one
+            const mailerLiteSubscriber = await mailerLite.createSubscriber({
+              email: validatedData.email,
+              name: validatedData.firstName
+                ? `${validatedData.firstName} ${validatedData.lastName || ""}`.trim()
+                : undefined,
+              fields: {
+                first_name: validatedData.firstName,
+                last_name: validatedData.lastName,
+                source: validatedData.source,
+              },
+            });
+
+            // Update database with MailerLite ID
+            await prisma.subscriber.update({
+              where: { email: validatedData.email },
+              data: { mailerLiteId: mailerLiteSubscriber.id },
+            });
+            console.log("MailerLite subscriber created successfully");
+          }
         } catch (error) {
-          console.error("MailerLite update error:", error);
+          console.error("MailerLite update/create error:", error);
+        }
+
+        // Send welcome email for resubscribed users
+        if (
+          process.env.IMPROVMX_SMTP_HOST &&
+          process.env.IMPROVMX_SMTP_USER &&
+          process.env.IMPROVMX_SMTP_PASS
+        ) {
+          try {
+            const improvmx = getImprovMXService();
+            const emailResult = await improvmx.sendWelcomeEmail(
+              validatedData.email,
+              validatedData.firstName
+            );
+            if (emailResult.success) {
+              console.log(
+                "Welcome back email sent successfully:",
+                emailResult.messageId
+              );
+            } else {
+              console.error("Welcome back email failed:", emailResult.error);
+            }
+          } catch (error) {
+            console.error("Welcome back email error:", error);
+          }
         }
 
         return NextResponse.json({
