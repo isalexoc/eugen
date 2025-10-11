@@ -9,8 +9,12 @@
     "deploy": "sanity deploy"
   },
   "dependencies": {
+    "@sanity/vision": "^3.99.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "autoprefixer": "^10.4.21",
+    "react-is": "^19.2.0",
     "sanity": "^3.99.0",
-    "@sanity/vision": "^3.99.0"
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

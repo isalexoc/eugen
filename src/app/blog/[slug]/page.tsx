@@ -1,9 +1,10 @@
-import { client } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import Image from 'next/image'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import ContentRenderer from './ContentRenderer'
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import { PortableText } from "@portabletext/react";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import ContentRenderer from "./ContentRenderer";
 
 async function getPost(slug: string) {
   const query = `*[_type == "post" && slug.current == $slug][0] {
@@ -21,9 +22,9 @@ async function getPost(slug: string) {
       title
     },
     body
-  }`
+  }`;
 
-  return await client.fetch(query, { slug })
+  return await client.fetch(query, { slug });
 }
 
 async function getRelatedPosts(currentSlug: string) {
@@ -36,23 +37,27 @@ async function getRelatedPosts(currentSlug: string) {
     author->{
       name
     }
-  }`
+  }`;
 
-  return await client.fetch(query, { slug: currentSlug })
+  return await client.fetch(query, { slug: currentSlug });
 }
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  const post = await getPost(slug)
-  const relatedPosts = await getRelatedPosts(slug)
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  const relatedPosts = await getRelatedPosts(slug);
 
   if (!post) {
-    notFound()
+    notFound();
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8">
           <Link href="/blog" className="text-green-600 hover:text-green-700">
@@ -60,27 +65,27 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </Link>
         </nav>
 
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <article className="overflow-hidden rounded-lg bg-white shadow-lg">
           {/* Header */}
-          <div className="px-8 py-6 border-b border-gray-200">
-            <div className="flex flex-wrap gap-2 mb-4">
+          <div className="border-b border-gray-200 px-8 py-6">
+            <div className="mb-4 flex flex-wrap gap-2">
               {post.categories?.map((category: any) => (
                 <span
                   key={category.title}
-                  className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full"
+                  className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-800"
                 >
                   {category.title}
                 </span>
               ))}
             </div>
 
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="mb-4 text-4xl font-bold text-gray-900">
               {post.title}
             </h1>
 
             <div className="flex items-center text-gray-600">
               {post.author?.image && (
-                <div className="relative w-12 h-12 mr-4">
+                <div className="relative mr-4 h-12 w-12">
                   <Image
                     src={urlFor(post.author.image).width(48).height(48).url()}
                     alt={post.author.name}
@@ -90,13 +95,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </div>
               )}
               <div>
-                <p className="font-medium">By {post.author?.name || 'Red Lotus Team'}</p>
+                <p className="font-medium">
+                  By {post.author?.name || "Red Lotus Team"}
+                </p>
                 {post.publishedAt && (
                   <p className="text-sm">
-                    {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
+                    {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })}
                   </p>
                 )}
@@ -121,22 +128,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="px-8 py-8">
             <div className="prose prose-lg max-w-none">
               {post.body ? (
-                <div>
-
-                  <ContentRenderer content={post.body} />
-                </div>
+                <PortableText value={post.body} />
               ) : (
-                <p className="text-gray-500 italic">No content available for this post.</p>
+                <p className="text-gray-500 italic">
+                  No content available for this post.
+                </p>
               )}
             </div>
           </div>
 
           {/* Author Bio */}
           {post.author?.bio && (
-            <div className="px-8 py-6 bg-gray-50 border-t border-gray-200">
+            <div className="border-t border-gray-200 bg-gray-50 px-8 py-6">
               <div className="flex items-start">
                 {post.author.image && (
-                  <div className="relative w-16 h-16 mr-4 flex-shrink-0">
+                  <div className="relative mr-4 h-16 w-16 flex-shrink-0">
                     <Image
                       src={urlFor(post.author.image).width(64).height(64).url()}
                       alt={post.author.name}
@@ -146,7 +152,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   </div>
                 )}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">
                     About {post.author.name}
                   </h3>
                   <div className="text-gray-600">
@@ -161,18 +167,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
           <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Related Posts</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <h2 className="mb-6 text-2xl font-bold text-gray-900">
+              Related Posts
+            </h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {relatedPosts.map((relatedPost: any) => (
                 <Link
                   key={relatedPost._id}
                   href={`/blog/${relatedPost.slug.current}`}
-                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
                 >
                   {relatedPost.mainImage && (
                     <div className="relative h-32 w-full">
                       <Image
-                        src={urlFor(relatedPost.mainImage).width(300).height(150).url()}
+                        src={urlFor(relatedPost.mainImage)
+                          .width(300)
+                          .height(150)
+                          .url()}
                         alt={relatedPost.title}
                         fill
                         className="object-cover"
@@ -180,11 +191,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
                   )}
                   <div className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                    <h3 className="mb-2 line-clamp-2 font-semibold text-gray-900">
                       {relatedPost.title}
                     </h3>
                     <p className="text-sm text-gray-500">
-                      By {relatedPost.author?.name || 'Red Lotus Team'}
+                      By {relatedPost.author?.name || "Red Lotus Team"}
                     </p>
                   </div>
                 </Link>
@@ -194,5 +205,5 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         )}
       </div>
     </div>
-  )
+  );
 }
