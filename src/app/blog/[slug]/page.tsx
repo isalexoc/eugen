@@ -1,3 +1,4 @@
+import { portableTextComponents } from "@/lib/portableText";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "@portabletext/react";
@@ -128,7 +129,10 @@ export default async function BlogPostPage({
           <div className="px-8 py-8">
             <div className="prose prose-lg max-w-none">
               {post.body ? (
-                <PortableText value={post.body} />
+                <PortableText
+                  value={post.body}
+                  components={portableTextComponents}
+                />
               ) : (
                 <p className="text-gray-500 italic">
                   No content available for this post.
