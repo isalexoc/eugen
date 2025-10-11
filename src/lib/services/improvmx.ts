@@ -52,11 +52,11 @@ export class ImprovMXService {
           : undefined,
       };
 
-      const result = this.transporter.sendMail(mailOptions);
+      const result = await this.transporter.sendMail(mailOptions);
 
       return {
         success: true,
-        messageId: (result as any).messageId,
+        messageId: result.messageId,
         data: result,
       };
     } catch (error) {
