@@ -1,66 +1,75 @@
-import nodemailer from 'nodemailer'
+import nodemailer from "nodemailer";
 
 interface EmailOptions {
-  to: string | string[]
-  from?: string
-  subject: string
-  html?: string
-  text?: string
-  replyTo?: string
-  tags?: Array<{ name: string; value: string }>
+  to: string | string[];
+  from?: string;
+  subject: string;
+  html?: string;
+  text?: string;
+  replyTo?: string;
+  tags?: Array<{ name: string; value: string }>;
 }
 
 export class ImprovMXService {
-  private transporter: nodemailer.Transporter
-  private defaultFrom: string
+  private transporter: nodemailer.Transporter;
+  private defaultFrom: string;
 
-  constructor(smtpConfig: {
-    host: string
-    port: number
-    secure: boolean
-    auth: {
-      user: string
-      pass: string
-    }
-  }, defaultFrom: string) {
-    this.transporter = nodemailer.createTransport(smtpConfig)
-    this.defaultFrom = defaultFrom
+  constructor(
+    smtpConfig: {
+      host: string;
+      port: number;
+      secure: boolean;
+      auth: {
+        user: string;
+        pass: string;
+      };
+    },
+    defaultFrom: string
+  ) {
+    this.transporter = nodemailer.createTransport(smtpConfig);
+    this.defaultFrom = defaultFrom;
   }
 
   async sendEmail(options: EmailOptions) {
     try {
       const mailOptions = {
         from: options.from || this.defaultFrom,
-        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+        to: Array.isArray(options.to) ? options.to.join(", ") : options.to,
         subject: options.subject,
         html: options.html,
-        text: options.text || '',
+        text: options.text || "",
         replyTo: options.replyTo,
         // Note: ImprovMX SMTP doesn't support tags like Resend, but we can add custom headers
-        headers: options.tags ? {
-          'X-Email-Type': options.tags.find(tag => tag.name === 'type')?.value || 'general',
-          'X-Service': options.tags.find(tag => tag.name === 'service')?.value || 'newsletter'
-        } : undefined
-      }
+        headers: options.tags
+          ? {
+              "X-Email-Type":
+                options.tags.find((tag) => tag.name === "type")?.value ||
+                "general",
+              "X-Service":
+                options.tags.find((tag) => tag.name === "service")?.value ||
+                "newsletter",
+            }
+          : undefined,
+      };
 
-      const result = this.transporter.sendMail(mailOptions)
+      const result = this.transporter.sendMail(mailOptions);
 
       return {
         success: true,
         messageId: (result as any).messageId,
         data: result,
-      }
+      };
     } catch (error) {
-      console.error('ImprovMX email error:', error)
+      console.error("ImprovMX email error:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error',
-      }
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
     }
   }
 
   async sendWelcomeEmail(to: string, firstName?: string) {
-    const subject = 'Welcome to Red Lotus International Newsletter!'
+    const subject = "Welcome to Red Lotus International Newsletter!";
     const html = `
       <!DOCTYPE html>
       <html>
@@ -75,7 +84,7 @@ export class ImprovMXService {
           </div>
 
           <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-            <h2 style="color: #8B4513; margin-top: 0;">Thank you for subscribing, ${firstName || 'Valued Customer'}!</h2>
+            <h2 style="color: #8B4513; margin-top: 0;">Thank you for subscribing, ${firstName || "Valued Customer"}!</h2>
 
             <p>We're excited to have you join our community of coffee and tea enthusiasts. You'll now receive:</p>
 
@@ -88,10 +97,6 @@ export class ImprovMXService {
 
             <p>If you have any questions or need assistance, feel free to reach out to us at <a href="mailto:info@redlotusintl.com" style="color: #8B4513;">info@redlotusintl.com</a>.</p>
 
-            <div style="text-align: center; margin: 30px 0;">
-              <a href="${process.env.NEXT_PUBLIC_APP_URL}/products" style="background: linear-gradient(135deg, #8B4513, #7CB342); color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Explore Our Products</a>
-            </div>
-
             <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
 
             <p style="font-size: 12px; color: #999; text-align: center;">
@@ -102,12 +107,12 @@ export class ImprovMXService {
           </div>
         </body>
       </html>
-    `
+    `;
 
     const text = `
 Welcome to Red Lotus International!
 
-Thank you for subscribing, ${firstName || 'Valued Customer'}!
+Thank you for subscribing, ${firstName || "Valued Customer"}!
 
 We're excited to have you join our community of coffee and tea enthusiasts. You'll now receive:
 
@@ -124,7 +129,7 @@ Explore our products: ${process.env.NEXT_PUBLIC_APP_URL}/products
 Red Lotus International LLC
 Stafford, VA
 Unsubscribe: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(to)}
-    `
+    `;
 
     return this.sendEmail({
       to,
@@ -132,14 +137,15 @@ Unsubscribe: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURICom
       html,
       text,
       tags: [
-        { name: 'type', value: 'welcome' },
-        { name: 'service', value: 'newsletter' },
+        { name: "type", value: "welcome" },
+        { name: "service", value: "newsletter" },
       ],
-    })
+    });
   }
 
   async sendUnsubscribeConfirmation(to: string) {
-    const subject = 'You have been unsubscribed from Red Lotus International Newsletter'
+    const subject =
+      "You have been unsubscribed from Red Lotus International Newsletter";
     const html = `
       <!DOCTYPE html>
       <html>
@@ -167,33 +173,35 @@ Unsubscribe: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURICom
           </div>
         </body>
       </html>
-    `
+    `;
 
     return this.sendEmail({
       to,
       subject,
       html,
       tags: [
-        { name: 'type', value: 'unsubscribe' },
-        { name: 'service', value: 'newsletter' },
+        { name: "type", value: "unsubscribe" },
+        { name: "service", value: "newsletter" },
       ],
-    })
+    });
   }
 }
 
 // Singleton instance
-let improvmxService: ImprovMXService | null = null
+let improvmxService: ImprovMXService | null = null;
 
 export function getImprovMXService(): ImprovMXService {
   if (!improvmxService) {
-    const smtpHost = process.env.IMPROVMX_SMTP_HOST
-    const smtpPort = process.env.IMPROVMX_SMTP_PORT
-    const smtpUser = process.env.IMPROVMX_SMTP_USER
-    const smtpPass = process.env.IMPROVMX_SMTP_PASS
-    const defaultFrom = process.env.FROM_EMAIL || 'info@redlotusintl.com'
+    const smtpHost = process.env.IMPROVMX_SMTP_HOST;
+    const smtpPort = process.env.IMPROVMX_SMTP_PORT;
+    const smtpUser = process.env.IMPROVMX_SMTP_USER;
+    const smtpPass = process.env.IMPROVMX_SMTP_PASS;
+    const defaultFrom = process.env.FROM_EMAIL || "info@redlotusintl.com";
 
     if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
-      throw new Error('ImprovMX SMTP configuration is required. Please set IMPROVMX_SMTP_HOST, IMPROVMX_SMTP_PORT, IMPROVMX_SMTP_USER, and IMPROVMX_SMTP_PASS environment variables.')
+      throw new Error(
+        "ImprovMX SMTP configuration is required. Please set IMPROVMX_SMTP_HOST, IMPROVMX_SMTP_PORT, IMPROVMX_SMTP_USER, and IMPROVMX_SMTP_PASS environment variables."
+      );
     }
 
     const smtpConfig = {
@@ -204,9 +212,9 @@ export function getImprovMXService(): ImprovMXService {
         user: smtpUser,
         pass: smtpPass,
       },
-    }
+    };
 
-    improvmxService = new ImprovMXService(smtpConfig, defaultFrom)
+    improvmxService = new ImprovMXService(smtpConfig, defaultFrom);
   }
-  return improvmxService
+  return improvmxService;
 }
