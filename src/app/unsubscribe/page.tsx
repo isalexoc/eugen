@@ -1,5 +1,6 @@
 import { UnsubscribeForm } from "@/components/forms/UnsubscribeForm";
 import { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -13,15 +14,16 @@ export const metadata: Metadata = {
 
 export default function UnsubscribePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-warm-cream flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+    <div className="to-warm-cream flex min-h-screen items-center justify-center bg-gradient-to-br from-amber-50 px-4">
+      <div className="w-full max-w-md">
+        <div className="rounded-2xl bg-white p-8 shadow-xl">
+          <div className="mb-8 text-center">
+            <h1 className="mb-4 text-3xl font-bold text-gray-900">
               Unsubscribe
             </h1>
             <p className="text-gray-600">
-              We're sorry to see you go! Enter your email address below to unsubscribe from our newsletter.
+              We&apos;re sorry to see you go! Enter your email address below to
+              unsubscribe from our newsletter.
             </p>
           </div>
 
@@ -32,9 +34,12 @@ export default function UnsubscribePage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-500">
               Changed your mind?{" "}
-              <a href="/newsletter" className="text-amber-700 hover:text-amber-800 underline">
+              <Link
+                href="/newsletter"
+                className="text-amber-700 underline hover:text-amber-800"
+              >
                 Resubscribe here
-              </a>
+              </Link>
             </p>
           </div>
         </div>
