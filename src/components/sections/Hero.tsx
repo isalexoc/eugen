@@ -34,7 +34,7 @@ export function Hero({
           loop
           playsInline
           preload="auto"
-          className="h-full w-full object-cover opacity-90"
+          className="h-full w-full scale-110 object-cover opacity-90"
           poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect width='1920' height='1080' fill='%23f3f4f6'/%3E%3C/svg%3E"
           onError={(e) => {
             console.log("Video failed to load:", e);
@@ -99,7 +99,7 @@ export function Hero({
             </Link>
             <Link
               href={secondaryButtonHref}
-              className="border-brand-primary text-brand-primary hover:from-brand-primary hover:to-brand-secondary hover:border-brand-primary group relative transform overflow-hidden rounded-xl border-2 bg-white/90 px-8 py-4 text-lg font-semibold shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:text-white hover:shadow-xl"
+              className="border-brand-primary text-brand-primary hover:from-brand-primary hover:to-brand-secondary hover:border-brand-primary group relative hidden transform overflow-hidden rounded-xl border-2 bg-white/90 px-8 py-4 text-lg font-semibold shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:text-white hover:shadow-xl sm:block"
             >
               <div className="from-brand-primary/10 to-brand-secondary/10 absolute inset-0 bg-gradient-to-r opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
               <span className="relative z-10">{secondaryButtonText}</span>
