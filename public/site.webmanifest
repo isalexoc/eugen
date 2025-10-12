@@ -1,0 +1,16 @@
+{
+  "name": "Red Lotus International",
+  "short_name": "Red Lotus",
+  "description": "Global Trade Solutions - Red Lotus International LLC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#8B4513",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -50,7 +50,7 @@ export const portableTextComponents: PortableTextComponents = {
     link: ({ children, value }) => (
       <a
         href={value?.href}
-        className="text-green-600 underline hover:text-green-700"
+        className="text-brand-success hover:text-brand-success-dark underline"
         target={value?.blank ? "_blank" : undefined}
         rel={value?.blank ? "noopener noreferrer" : undefined}
       >

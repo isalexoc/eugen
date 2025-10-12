@@ -1,5 +1,7 @@
+import CrispChat from "@/components/admin/crisp-chat";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -15,7 +17,8 @@ export const metadata: Metadata = {
     default: "Red Lotus International LLC - Global Trade Solutions",
     template: "%s | Red Lotus International LLC",
   },
-  description: "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China. Delivering excellence in every container worldwide.",
+  description:
+    "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China. Delivering excellence in every container worldwide.",
   keywords: [
     "coffee beans",
     "matcha tea",
@@ -38,7 +41,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
   alternates: {
     canonical: "/",
   },
@@ -47,7 +52,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     title: "Red Lotus International LLC - Global Trade Solutions",
-    description: "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China.",
+    description:
+      "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China.",
     siteName: "Red Lotus International LLC",
     images: [
       {
@@ -61,7 +67,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Red Lotus International LLC - Global Trade Solutions",
-    description: "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China.",
+    description:
+      "Leading global trade solutions provider specializing in premium coffee beans and matcha tea from Japan, Vietnam, and China.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -86,24 +93,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#8B4513" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={`${inter.className} antialiased bg-white text-gray-900`}>
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </div>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider>
+          <div className="flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <CrispChat />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,7 +1,17 @@
 "use client";
 
+import Logo from "@/components/Logo";
+import { Accordion } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import Headroom from "headroom.js";
-import { Mail, MapPin, Menu, Phone, X } from "lucide-react";
+import { Mail, MapPin, Menu, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef } from "react";
@@ -19,8 +29,8 @@ export const Header: React.FC = () => {
     if (headerRef.current) {
       const headroom = new Headroom(headerRef.current, {
         tolerance: {
-          up: 10,
-          down: 20,
+          up: 5,
+          down: 10,
         },
         offset: 0,
         classes: {
@@ -44,7 +54,6 @@ export const Header: React.FC = () => {
   const navigation = [
     { name: "Home", href: "/" },
     { name: "About", href: "/about" },
-    { name: "Products", href: "/products" },
     { name: "Services", href: "/services" },
     { name: "Blog", href: "/blog" },
     { name: "Contact", href: "/contact" },
@@ -54,23 +63,38 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      {/* Top Bar */}
-      <div className="bg-red-600 text-white py-2 text-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <Phone className="h-4 w-4" />
-                <span>+1 (555) 123-4567</span>
+      {/* Top Bar - Hidden on mobile, visible on tablet and desktop */}
+      <div className="from-brand-primary via-brand-primary to-brand-secondary relative hidden overflow-hidden bg-gradient-to-r py-2 text-xs text-white shadow-lg md:block md:py-3 md:text-sm">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 bg-white/5"></div>
+        {/* Animated shimmer effect */}
+        <div className="header-shimmer absolute inset-0"></div>
+        <div className="relative z-10">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center space-x-3 md:space-x-6">
+                <div className="hover:text-brand-warm group flex cursor-pointer items-center space-x-2 transition-all duration-200 hover:scale-105">
+                  <Phone className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
+                  <span className="font-medium">
+                    {process.env.NEXT_PUBLIC_COMPANY_PHONE ||
+                      "+1 (555) 123-4567"}
+                  </span>
+                </div>
+                <div className="hover:text-brand-warm group flex cursor-pointer items-center space-x-2 transition-all duration-200 hover:scale-105">
+                  <Mail className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
+                  <span className="font-medium">
+                    {process.env.NEXT_PUBLIC_COMPANY_EMAIL ||
+                      "info@redlotusintl.com"}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <Mail className="h-4 w-4" />
-                <span>info@redlotusintl.com</span>
+              <div className="hover:text-brand-warm group hidden cursor-pointer items-center space-x-2 transition-all duration-200 hover:scale-105 lg:flex">
+                <MapPin className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
+                <span className="font-medium">
+                  {process.env.NEXT_PUBLIC_COMPANY_ADDRESS_CITY ||
+                    "Stafford, VA"}
+                </span>
               </div>
-            </div>
-            <div className="hidden md:flex items-center space-x-2">
-              <MapPin className="h-4 w-4" />
-              <span>Stafford, VA</span>
             </div>
           </div>
         </div>
@@ -79,40 +103,26 @@ export const Header: React.FC = () => {
       {/* Main Header */}
       <header
         ref={headerRef}
-        className="bg-white shadow-lg transition-all duration-300 ease-in-out"
+        className="from-brand-warm to-brand-warm border-brand-primary/20 header-float sticky top-0 z-50 border-b-2 bg-gradient-to-r via-white shadow-xl backdrop-blur-sm transition-all duration-300 ease-in-out"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <div className="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between md:h-20">
             {/* Logo */}
-            <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center space-x-3">
-                <div className="flex items-center space-x-3">
-                  {/* Red Lotus Logo Placeholder */}
-                  <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">RL</span>
-                  </div>
-                  <div className="hidden sm:block">
-                    <h1 className="text-2xl font-bold text-gray-900">
-                      Red Lotus International
-                    </h1>
-                    <p className="text-sm text-gray-600">
-                      Global Trade Solutions
-                    </p>
-                  </div>
-                </div>
-              </Link>
+            <div className="flex h-full w-full items-center justify-center">
+              <Logo />
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            <nav className="hidden items-center space-x-4 lg:flex xl:space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${isActive(item.href)
-                    ? "text-red-600 bg-red-50"
-                    : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
-                    }`}
+                  className={`group relative overflow-hidden rounded-xl px-3 py-2.5 text-xs font-medium transition-all duration-300 lg:px-5 lg:text-sm ${
+                    isActive(item.href)
+                      ? "from-brand-primary to-brand-secondary border-brand-primary/30 border bg-gradient-to-r font-semibold text-white shadow-lg"
+                      : "text-brand-accent hover:from-brand-primary hover:to-brand-secondary hover:border-brand-primary/30 border border-transparent hover:scale-105 hover:bg-gradient-to-r hover:text-white hover:shadow-lg"
+                  }`}
                 >
                   {item.name}
                 </Link>
@@ -120,97 +130,159 @@ export const Header: React.FC = () => {
             </nav>
 
             {/* CTA Button */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden items-center space-x-2 lg:flex xl:space-x-4">
               <Link
                 href="/newsletter"
-                className="text-gray-700 hover:text-red-600 transition-colors duration-200"
+                className="text-brand-accent hover:from-brand-secondary hover:to-brand-primary border-brand-secondary/30 hover:border-brand-secondary/50 rounded-xl border px-3 py-2.5 text-xs font-medium transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:text-white hover:shadow-lg lg:px-5 lg:text-sm"
               >
                 Newsletter
               </Link>
               <Link
                 href="/contact"
-                className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+                className="from-brand-primary to-brand-secondary hover:from-brand-primary-dark hover:to-brand-secondary-dark group border-brand-primary/30 hover:border-brand-primary/50 relative transform overflow-hidden rounded-xl border bg-gradient-to-r px-4 py-2.5 text-sm font-semibold whitespace-nowrap text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl lg:px-6 lg:py-3 lg:text-base"
               >
-                Get Quote
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                <span className="relative z-10 flex items-center space-x-2">
+                  <span>Get Quote</span>
+                  <span className="transition-transform duration-200 group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
               </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-700 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 p-2 rounded-md"
-                aria-label="Toggle mobile menu"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="h-6 w-6" />
-                ) : (
-                  <Menu className="h-6 w-6" />
-                )}
-              </button>
-            </div>
+            {/* Mobile sheet navigation */}
+            <MobileSheet
+              isOpen={isMobileMenuOpen}
+              setIsOpen={setIsMobileMenuOpen}
+              navigation={navigation}
+              isActive={isActive}
+            />
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 ${isActive(item.href)
-                    ? "text-red-600 bg-red-50"
-                    : "text-gray-700 hover:text-red-600 hover:bg-gray-50"
-                    }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <div className="pt-4 pb-2 border-t border-gray-200">
-                <Link
-                  href="/newsletter"
-                  className="block px-3 py-2 text-gray-700 hover:text-red-600 transition-colors duration-200"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Newsletter
-                </Link>
-                <Link
-                  href="/contact"
-                  className="block mx-3 mt-2 bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium text-center"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Get Quote
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
-
-      {/* Headroom CSS Classes */}
-      <style jsx global>{`
-        .header-initial {
-          transform: translateY(0);
-        }
-        .header-pinned {
-          transform: translateY(0);
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .header-unpinned {
-          transform: translateY(-100%);
-        }
-        .header-top {
-          background-color: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-        }
-        .header-not-top {
-          background-color: rgba(255, 255, 255, 0.98);
-          backdrop-filter: blur(10px);
-        }
-      `}</style>
     </>
   );
 };
+
+/* ───────────────────────── Mobile Sheet Component ───────────────────────── */
+
+type MobileSheetProps = {
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  navigation: Array<{ name: string; href: string }>;
+  isActive: (href: string) => boolean;
+};
+
+const MobileSheet = ({
+  isOpen,
+  setIsOpen,
+  navigation,
+  isActive,
+}: MobileSheetProps) => (
+  <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <SheetTrigger asChild className="lg:hidden">
+      <Button variant="ghost" size="icon" aria-label="Open main menu">
+        <Menu className="h-6 w-6" aria-hidden="true" />
+      </Button>
+    </SheetTrigger>
+
+    <SheetContent className="from-brand-warm to-brand-warm border-brand-primary/30 w-72 border-l-2 bg-gradient-to-b via-white p-0 sm:w-80">
+      <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+      <SheetDescription className="sr-only">
+        Main navigation menu for Red Lotus International website
+      </SheetDescription>
+      <div className="flex h-full flex-col">
+        <div className="from-brand-warm/50 flex-1 overflow-y-auto bg-gradient-to-b to-white px-4 pt-8">
+          <Accordion type="multiple" className="w-full space-y-2">
+            {/* Logo */}
+            <div className="border-brand-primary/30 from-brand-warm/80 mb-4 rounded-xl border-b-2 bg-gradient-to-r to-white p-4 pb-6 shadow-sm">
+              <Logo />
+            </div>
+
+            {/* Main Navigation Links */}
+            {navigation.map((item) => (
+              <MobileLink
+                key={item.name}
+                label={item.name}
+                href={item.href}
+                isActive={isActive}
+                setIsOpen={setIsOpen}
+              />
+            ))}
+
+            {/* Newsletter Link */}
+            <MobileLink
+              label="Newsletter"
+              href="/newsletter"
+              isActive={isActive}
+              setIsOpen={setIsOpen}
+              className="pt-4"
+            />
+          </Accordion>
+        </div>
+
+        {/* Sticky bottom section */}
+        <div className="border-brand-primary/30 from-brand-warm/90 to-brand-warm/90 border-t-2 bg-gradient-to-r via-white px-4 pt-6 pb-6 backdrop-blur-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <a
+                href={`tel:${process.env.NEXT_PUBLIC_COMPANY_PHONE || "+15551234567"}`}
+                className="text-brand-accent hover:text-brand-primary group flex cursor-pointer items-center space-x-2 text-sm transition-all duration-300 hover:scale-105"
+              >
+                <Phone className="h-4 w-4 transition-transform duration-200 group-hover:rotate-12" />
+                <span className="font-medium">
+                  {process.env.NEXT_PUBLIC_COMPANY_PHONE || "+1 (555) 123-4567"}
+                </span>
+              </a>
+            </div>
+          </div>
+          {/* CTA Button */}
+          <Link
+            href="/contact"
+            className="from-brand-primary to-brand-secondary hover:from-brand-primary-dark hover:to-brand-secondary-dark group border-brand-primary/30 hover:border-brand-primary/50 relative block w-full transform overflow-hidden rounded-xl border bg-gradient-to-r px-6 py-4 text-center font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            onClick={() => setIsOpen(false)}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            <span className="relative z-10 flex items-center space-x-2">
+              <span>Get Quote</span>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">
+                →
+              </span>
+            </span>
+          </Link>
+        </div>
+      </div>
+    </SheetContent>
+  </Sheet>
+);
+
+/* ───────────────────────── Mobile Link Component ───────────────────────── */
+
+type MobileLinkProps = {
+  label: string;
+  href: string;
+  isActive: (href: string) => boolean;
+  setIsOpen: (open: boolean) => void;
+  className?: string;
+};
+
+const MobileLink = ({
+  label,
+  href,
+  isActive,
+  setIsOpen,
+  className = "",
+}: MobileLinkProps) => (
+  <Link
+    href={href}
+    onClick={() => setIsOpen(false)}
+    className={`group relative mb-2 block overflow-hidden rounded-xl px-4 py-4 text-base font-medium transition-all duration-300 ${
+      isActive(href)
+        ? "from-brand-primary to-brand-secondary border-brand-primary/30 border bg-gradient-to-r font-semibold text-white shadow-lg"
+        : "text-brand-accent bg-brand-warm/30 hover:from-brand-primary hover:to-brand-secondary border-brand-primary/20 hover:border-brand-primary/40 border hover:scale-105 hover:bg-gradient-to-r hover:text-white hover:shadow-lg"
+    } ${className}`}
+  >
+    {label}
+  </Link>
+);

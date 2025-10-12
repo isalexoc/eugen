@@ -25,13 +25,11 @@ export const Footer: React.FC = () => {
       { name: "About Us", href: "/about" },
       { name: "Our Services", href: "/services" },
       { name: "Contact", href: "/contact" },
-      { name: "Careers", href: "/careers" },
     ],
     products: [
       { name: "Coffee Beans", href: "/products/coffee" },
       { name: "Matcha Tea", href: "/products/matcha" },
       { name: "Quality Assurance", href: "/quality" },
-      { name: "Certifications", href: "/certifications" },
     ],
     resources: [
       { name: "Blog", href: "/blog" },
@@ -55,22 +53,22 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-brand-warm text-brand-primary">
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="mb-6 flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-600">
-                <span className="text-xl font-bold text-white">RL</span>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white">
+                <span className="text-brand-primary text-xl font-bold">RL</span>
               </div>
               <div>
                 <h3 className="text-2xl font-bold">Red Lotus International</h3>
-                <p className="text-gray-400">Global Trade Solutions</p>
+                <p className="text-gray-600">Global Trade Solutions</p>
               </div>
             </div>
-            <p className="mb-6 max-w-md text-gray-300">
+            <p className="mb-6 max-w-md text-gray-600">
               Leading global trade solutions provider specializing in premium
               coffee beans and matcha tea from Japan, Vietnam, and China.
               Delivering excellence in every container worldwide.
@@ -79,19 +77,26 @@ export const Footer: React.FC = () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <MapPin className="h-5 w-5 text-red-600" />
-                <span className="text-gray-300">
-                  Stafford, VA, United States
+                <MapPin className="text-brand-secondary h-5 w-5" />
+                <span className="text-gray-600">
+                  {process.env.NEXT_PUBLIC_COMPANY_ADDRESS_CITY ||
+                    "Stafford, VA"}
+                  ,{" "}
+                  {process.env.NEXT_PUBLIC_COMPANY_ADDRESS_COUNTRY ||
+                    "United States"}
                 </span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="h-5 w-5 text-red-600" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
+                <Phone className="text-brand-secondary h-5 w-5" />
+                <span className="text-gray-600">
+                  {process.env.NEXT_PUBLIC_COMPANY_PHONE || "+1 (555) 123-4567"}
+                </span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-5 w-5 text-red-600" />
-                <span className="text-gray-300">
-                  info@redlotusinternational.com
+                <Mail className="text-brand-secondary h-5 w-5" />
+                <span className="text-gray-600">
+                  {process.env.NEXT_PUBLIC_COMPANY_EMAIL ||
+                    "info@redlotusintl.com"}
                 </span>
               </div>
             </div>
@@ -104,7 +109,7 @@ export const Footer: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-400 transition-colors duration-200 hover:text-red-600"
+                    className="hover:text-brand-secondary text-gray-400 transition-colors duration-200"
                     aria-label={item.name}
                   >
                     <Icon className="h-6 w-6" />
@@ -122,7 +127,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="hover:text-brand-secondary text-gray-600 transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -139,7 +144,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="hover:text-brand-secondary text-gray-600 transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -156,7 +161,7 @@ export const Footer: React.FC = () => {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-gray-300 transition-colors duration-200 hover:text-red-600"
+                    className="hover:text-brand-secondary text-gray-600 transition-colors duration-200"
                   >
                     {item.name}
                   </Link>
@@ -170,7 +175,7 @@ export const Footer: React.FC = () => {
         <div className="mt-12 border-t border-gray-800 pt-8">
           <div className="max-w-md">
             <h4 className="mb-4 text-lg font-semibold">Stay Updated</h4>
-            <p className="mb-4 text-gray-300">
+            <p className="mb-4 text-gray-600">
               Subscribe to our newsletter for the latest trade insights and
               product updates.
             </p>
@@ -185,7 +190,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-700 bg-gray-800">
+      <div className="border-brand-primary/30 bg-brand-primary border-t text-white">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between md:flex-row">
             <div className="mb-4 flex items-center space-x-4 md:mb-0">
@@ -208,7 +213,7 @@ export const Footer: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-sm text-gray-400 transition-colors duration-200 hover:text-red-600"
+                    className="hover:text-brand-secondary text-sm text-gray-400 transition-colors duration-200"
                   >
                     {item.name}
                   </Link>

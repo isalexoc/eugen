@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function UnsubscribePage() {
   return (
-    <div className="to-warm-cream flex min-h-screen items-center justify-center bg-gradient-to-br from-amber-50 px-4">
+    <div className="to-warm-cream from-brand-warm flex min-h-screen items-center justify-center bg-gradient-to-br px-4">
       <div className="w-full max-w-md">
         <div className="rounded-2xl bg-white p-8 shadow-xl">
           <div className="mb-8 text-center">
@@ -36,7 +36,7 @@ export default function UnsubscribePage() {
               Changed your mind?{" "}
               <Link
                 href="/newsletter"
-                className="text-amber-700 underline hover:text-amber-800"
+                className="text-brand-primary hover:text-brand-dark underline"
               >
                 Resubscribe here
               </Link>

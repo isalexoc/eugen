@@ -95,13 +95,13 @@ export class ImprovMXService {
               <li>Special offers and early access to new products</li>
             </ul>
 
-            <p>If you have any questions or need assistance, feel free to reach out to us at <a href="mailto:info@redlotusintl.com" style="color: #8B4513;">info@redlotusintl.com</a>.</p>
+            <p>If you have any questions or need assistance, feel free to reach out to us at <a href="mailto:${process.env.NEXT_PUBLIC_COMPANY_EMAIL || "info@redlotusintl.com"}" style="color: #8B4513;">${process.env.NEXT_PUBLIC_COMPANY_EMAIL || "info@redlotusintl.com"}</a>.</p>
 
             <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
 
             <p style="font-size: 12px; color: #999; text-align: center;">
-              Red Lotus International LLC<br>
-              Stafford, VA<br>
+              ${process.env.NEXT_PUBLIC_COMPANY_NAME || "Red Lotus International LLC"}<br>
+              ${process.env.NEXT_PUBLIC_COMPANY_ADDRESS_CITY || "Stafford, VA"}<br>
               <a href="${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(to)}" style="color: #999;">Unsubscribe</a>
             </p>
           </div>
@@ -121,13 +121,13 @@ We're excited to have you join our community of coffee and tea enthusiasts. You'
 - Global trade market updates and industry news
 - Special offers and early access to new products
 
-If you have any questions or need assistance, feel free to reach out to us at info@redlotusintl.com.
+If you have any questions or need assistance, feel free to reach out to us at ${process.env.NEXT_PUBLIC_COMPANY_EMAIL || "info@redlotusintl.com"}.
 
 Explore our products: ${process.env.NEXT_PUBLIC_APP_URL}/products
 
 ---
-Red Lotus International LLC
-Stafford, VA
+${process.env.NEXT_PUBLIC_COMPANY_NAME || "Red Lotus International LLC"}
+${process.env.NEXT_PUBLIC_COMPANY_ADDRESS_CITY || "Stafford, VA"}
 Unsubscribe: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURIComponent(to)}
     `;
 
@@ -167,8 +167,8 @@ Unsubscribe: ${process.env.NEXT_PUBLIC_APP_URL}/unsubscribe?email=${encodeURICom
             <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
 
             <p style="font-size: 12px; color: #999;">
-              Red Lotus International LLC<br>
-              Stafford, VA
+              ${process.env.NEXT_PUBLIC_COMPANY_NAME || "Red Lotus International LLC"}<br>
+              ${process.env.NEXT_PUBLIC_COMPANY_ADDRESS_CITY || "Stafford, VA"}
             </p>
           </div>
         </body>
@@ -196,7 +196,10 @@ export function getImprovMXService(): ImprovMXService {
     const smtpPort = process.env.IMPROVMX_SMTP_PORT;
     const smtpUser = process.env.IMPROVMX_SMTP_USER;
     const smtpPass = process.env.IMPROVMX_SMTP_PASS;
-    const defaultFrom = process.env.FROM_EMAIL || "info@redlotusintl.com";
+    const defaultFrom =
+      process.env.FROM_EMAIL ||
+      process.env.NEXT_PUBLIC_COMPANY_EMAIL ||
+      "info@redlotusintl.com";
 
     if (!smtpHost || !smtpPort || !smtpUser || !smtpPass) {
       throw new Error(

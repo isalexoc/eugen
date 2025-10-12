@@ -1,44 +1,30 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --coffee-brown: #8B4513;
-  --coffee-dark: #5D2F0A;
-  --matcha-green: #7CB342;
-  --matcha-light: #AED581;
-  --warm-cream: #F5F5DC;
-  --rich-brown: #3E2723;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --color-coffee-brown: var(--coffee-brown);
-  --color-coffee-dark: var(--coffee-dark);
-  --color-matcha-green: var(--matcha-green);
-  --color-matcha-light: var(--matcha-light);
-  --color-warm-cream: var(--warm-cream);
-  --color-rich-brown: var(--rich-brown);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-brand-primary: #8b4513;
+  --color-brand-secondary: #7cb342;
+  --color-brand-accent: #2d1b1b;
+  --color-brand-warm: #f5f5dc;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-inter),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
+
+/* Professional theme system - Light mode only */
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+}
+
+/* Prevent flash of unstyled content */
+html {
+  color-scheme: light;
 }
 
 ::-webkit-scrollbar-track {
@@ -46,12 +32,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--coffee-brown);
+  background: #8b4513; /* brand-primary */
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--coffee-dark);
+  background: #6b3410; /* darker shade of brand-primary */
 }
 
 /* Smooth scrolling */
@@ -61,9 +47,11 @@ html {
 
 /* Focus styles for accessibility */
 *:focus {
-  outline: 2px solid var(--matcha-green);
+  outline: 2px solid #7cb342; /* brand-secondary */
   outline-offset: 2px;
 }
+
+/* All styling handled by Tailwind CSS classes */
 
 /* Custom animations */
 @keyframes fadeInUp {
@@ -81,6 +69,33 @@ html {
   animation: fadeInUp 0.6s ease-out;
 }
 
+/* Accordion animations */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+.animate-accordion-down {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.animate-accordion-up {
+  animation: accordion-up 0.2s ease-out;
+}
+
 /* Headroom styles */
 .header-initial {
   transform: translateY(0);
@@ -90,12 +105,102 @@ html {
 .header-pinned {
   transform: translateY(0);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
 }
 
 .header-unpinned {
   transform: translateY(-100%);
   transition: transform 0.3s ease-in-out;
+}
+
+/* Header animations and effects */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.header-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.header-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hero text animations */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-text-container {
+  animation: slideInUp 0.8s ease-out;
+}
+
+.hero-subtitle-container {
+  animation: slideInDown 0.8s ease-out 0.2s both;
+}
+
+.hero-description-container {
+  animation: slideInUp 0.8s ease-out 0.4s both;
+}
+
+.hero-buttons-container {
+  animation: slideInUp 0.8s ease-out 0.6s both;
+}
+
+@keyframes gentlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.hero-subtitle-pulse {
+  animation: gentlePulse 4s ease-in-out infinite;
 }
 
 /* Loading states */
@@ -105,13 +210,18 @@ html {
 }
 
 .loading::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   animation: loading 1.5s infinite;
 }
 
@@ -173,7 +283,8 @@ html {
   color: #1d4ed8;
 }
 
-.prose ul, .prose ol {
+.prose ul,
+.prose ol {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
   padding-left: 1.625rem;
@@ -190,7 +301,7 @@ html {
   color: #111827;
   border-left-width: 0.25rem;
   border-left-color: #e5e7eb;
-  quotes: "\201C""\201D""\2018""\2019";
+  quotes: "\201C" "\201D" "\2018" "\2019";
   margin-top: 1.6rem;
   margin-bottom: 1.6rem;
   padding-left: 1rem;

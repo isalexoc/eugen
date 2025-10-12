@@ -1,27 +1,30 @@
-'use client'
+"use client";
 
-import { portableTextComponents, renderContentAsText } from '@/lib/portableText'
-import { PortableText } from '@portabletext/react'
-import { useEffect, useState } from 'react'
+import {
+  portableTextComponents,
+  renderContentAsText,
+} from "@/lib/portableText";
+import { PortableText } from "@portabletext/react";
+import { useEffect, useState } from "react";
 
 export default function ClientContentRenderer({ content }: { content: any }) {
-  const [mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   // Prevent hydration mismatch by not rendering PortableText until mounted
   if (!mounted) {
-    return (
-      <div className="text-gray-500 italic">Loading content...</div>
-    )
+    return <div className="text-gray-500 italic">Loading content...</div>;
   }
 
   if (!content) {
     return (
-      <p className="text-gray-500 italic">No content available for this post.</p>
-    )
+      <p className="text-gray-500 italic">
+        No content available for this post.
+      </p>
+    );
   }
 
   try {
@@ -30,27 +33,29 @@ export default function ClientContentRenderer({ content }: { content: any }) {
         value={content}
         components={portableTextComponents}
         onMissingComponent={(message, options) => {
-          console.warn('PortableText missing component:', message, options)
-          return null
+          console.warn("PortableText missing component:", message, options);
+          return null;
         }}
       />
-    )
+    );
   } catch (error) {
-    console.error('PortableText rendering error:', error)
+    console.error("PortableText rendering error:", error);
 
     // Fallback to plain text rendering
-    const textContent = renderContentAsText(content)
+    const textContent = renderContentAsText(content);
 
     return (
-      <div className="text-gray-700 whitespace-pre-wrap">
-        <div className="mb-4 p-4 bg-red-100 border border-red-300 rounded">
-          <h4 className="font-bold text-red-800 mb-2">⚠️ Content Rendering Issue</h4>
-          <p className="text-red-700 text-sm mb-2">
+      <div className="whitespace-pre-wrap text-gray-700">
+        <div className="bg-brand-error-light border-brand-error mb-4 rounded border p-4">
+          <h4 className="text-brand-error mb-2 font-bold">
+            ⚠️ Content Rendering Issue
+          </h4>
+          <p className="text-brand-error mb-2 text-sm">
             PortableText failed to render this content. Showing fallback text:
           </p>
         </div>
-        {textContent || 'Content could not be rendered.'}
+        {textContent || "Content could not be rendered."}
       </div>
-    )
+    );
   }
 }

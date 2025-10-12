@@ -38,14 +38,14 @@ export default function NewsletterPage() {
   ];
 
   return (
-    <div className="to-warm-cream min-h-screen bg-gradient-to-br from-amber-50">
+    <div className="to-warm-cream from-brand-warm min-h-screen bg-gradient-to-br">
       {/* Hero Section */}
       <section className="py-20 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-6xl">
               Stay Connected with
-              <span className="block text-amber-800">
+              <span className="text-brand-primary block">
                 Red Lotus International
               </span>
             </h1>
@@ -86,14 +86,14 @@ export default function NewsletterPage() {
                 By subscribing, you agree to our{" "}
                 <Link
                   href="/privacy"
-                  className="text-amber-700 underline hover:text-amber-800"
+                  className="text-brand-primary hover:text-brand-dark underline"
                 >
                   Privacy Policy
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/terms"
-                  className="text-amber-700 underline hover:text-amber-800"
+                  className="text-brand-primary hover:text-brand-dark underline"
                 >
                   Terms of Service
                 </Link>
@@ -105,7 +105,7 @@ export default function NewsletterPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="to-warm-cream bg-gradient-to-br from-amber-50 py-20">
+      <section className="to-warm-cream from-brand-warm bg-gradient-to-br py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
@@ -125,8 +125,8 @@ export default function NewsletterPage() {
                   key={index}
                   className="rounded-lg bg-white p-6 text-center shadow-md transition-shadow duration-200 hover:shadow-lg"
                 >
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-green-100">
-                    <Icon className="h-8 w-8 text-amber-700" />
+                  <div className="from-brand-warm to-brand-success-light mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br">
+                    <Icon className="text-brand-primary h-8 w-8" />
                   </div>
                   <h3 className="mb-3 text-xl font-semibold text-gray-900">
                     {benefit.title}

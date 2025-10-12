@@ -61,7 +61,10 @@ export default async function BlogPostPage({
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-8">
-          <Link href="/blog" className="text-green-600 hover:text-green-700">
+          <Link
+            href="/blog"
+            className="text-brand-success hover:text-brand-success-dark"
+          >
             ← Back to Blog
           </Link>
         </nav>
@@ -73,7 +76,7 @@ export default async function BlogPostPage({
               {post.categories?.map((category: any) => (
                 <span
                   key={category.title}
-                  className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-800"
+                  className="bg-brand-success-light text-brand-success-dark rounded-full px-3 py-1 text-sm"
                 >
                   {category.title}
                 </span>

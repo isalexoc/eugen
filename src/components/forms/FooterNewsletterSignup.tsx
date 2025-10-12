@@ -19,36 +19,36 @@ export function FooterNewsletterSignup({
     <>
       <style jsx>{`
         .footer-newsletter :global(input) {
-          background-color: #1f2937 !important;
-          border-color: #374151 !important;
-          color: white !important;
+          background-color: white !important;
+          border-color: #d1d5db !important;
+          color: #111827 !important;
         }
         .footer-newsletter :global(input::placeholder) {
-          color: #9ca3af !important;
+          color: #6b7280 !important;
         }
         .footer-newsletter :global(input:focus) {
-          border-color: #dc2626 !important;
-          box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
+          border-color: #8b4513 !important;
+          box-shadow: 0 0 0 2px rgba(139, 69, 19, 0.2) !important;
         }
         .footer-newsletter :global(button) {
-          background: linear-gradient(to right, #dc2626, #dc2626) !important;
+          background: linear-gradient(to right, #8b4513, #7cb342) !important;
         }
         .footer-newsletter :global(button:hover) {
-          background: linear-gradient(to right, #b91c1c, #b91c1c) !important;
+          background: linear-gradient(to right, #6b3410, #689f38) !important;
         }
-        .footer-newsletter :global(.text-red-600) {
+        .footer-newsletter :global(.text-brand-error) {
           color: #dc2626 !important;
         }
-        .footer-newsletter :global(.bg-red-50) {
-          background-color: #1f2937 !important;
-          border: 1px solid #374151 !important;
+        .footer-newsletter :global(.bg-brand-error-light) {
+          background-color: #fef2f2 !important;
+          border: 1px solid #dc2626 !important;
         }
-        .footer-newsletter :global(.text-green-600) {
-          color: #10b981 !important;
+        .footer-newsletter :global(.text-brand-success) {
+          color: #7cb342 !important;
         }
-        .footer-newsletter :global(.bg-green-50) {
-          background-color: #1f2937 !important;
-          border: 1px solid #374151 !important;
+        .footer-newsletter :global(.bg-brand-success-light) {
+          background-color: #aed581 !important;
+          border: 1px solid #7cb342 !important;
         }
       `}</style>
       <div className="footer-newsletter">

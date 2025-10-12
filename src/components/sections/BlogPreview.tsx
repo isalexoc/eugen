@@ -1,7 +1,7 @@
-import { client } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import Image from 'next/image'
-import Link from 'next/link'
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import Image from "next/image";
+import Link from "next/link";
 
 async function getLatestPosts() {
   const query = `*[_type == "post"] | order(publishedAt desc) [0...3] {
@@ -16,33 +16,37 @@ async function getLatestPosts() {
     categories[]->{
       title
     }
-  }`
+  }`;
 
-  return await client.fetch(query)
+  return await client.fetch(query);
 }
 
 export default async function BlogPreview() {
-  const posts = await getLatestPosts()
+  const posts = await getLatestPosts();
 
   if (posts.length === 0) {
-    return null
+    return null;
   }
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+    <section className="bg-gray-50 py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900">
             Latest from Our Blog
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Stay updated with the latest insights on coffee, tea, and global trade markets
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+            Stay updated with the latest insights on coffee, tea, and global
+            trade markets
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post: any) => (
-            <article key={post._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <article
+              key={post._id}
+              className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
+            >
               {post.mainImage && (
                 <div className="relative h-48 w-full">
                   <Image
@@ -55,23 +59,23 @@ export default async function BlogPreview() {
               )}
 
               <div className="p-6">
-                <div className="flex flex-wrap gap-2 mb-3">
+                <div className="mb-3 flex flex-wrap gap-2">
                   {post.categories?.slice(0, 2).map((category: any) => (
                     <span
                       key={category.title}
-                      className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full"
+                      className="bg-brand-success-light text-brand-success-dark rounded-full px-2 py-1 text-xs"
                     >
                       {category.title}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
+                <h3 className="mb-2 line-clamp-2 text-xl font-semibold text-gray-900">
                   {post.title}
                 </h3>
 
-                <div className="flex items-center text-sm text-gray-500 mb-4">
-                  <span>By {post.author?.name || 'Red Lotus Team'}</span>
+                <div className="mb-4 flex items-center text-sm text-gray-500">
+                  <span>By {post.author?.name || "Red Lotus Team"}</span>
                   {post.publishedAt && (
                     <span className="ml-2">
                       • {new Date(post.publishedAt).toLocaleDateString()}
@@ -81,11 +85,21 @@ export default async function BlogPreview() {
 
                 <Link
                   href={`/blog/${post.slug.current}`}
-                  className="inline-flex items-center text-green-600 hover:text-green-700 font-medium"
+                  className="text-brand-success hover:text-brand-success-dark inline-flex items-center font-medium"
                 >
                   Read More
-                  <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg
+                    className="ml-1 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
                   </svg>
                 </Link>
               </div>
@@ -93,18 +107,28 @@ export default async function BlogPreview() {
           ))}
         </div>
 
-        <div className="text-center mt-8">
+        <div className="mt-8 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors"
+            className="bg-brand-success hover:bg-brand-success-dark inline-flex items-center rounded-md border border-transparent px-6 py-3 text-base font-medium text-white transition-colors"
           >
             View All Posts
-            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg
+              className="ml-2 h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </Link>
         </div>
       </div>
     </section>
-  )
+  );
 }
