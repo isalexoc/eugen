@@ -2,6 +2,7 @@ import { portableTextComponents } from "@/lib/portableText";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { PortableText } from "@portabletext/react";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -14,6 +15,7 @@ async function getPost(slug: string) {
     slug,
     publishedAt,
     mainImage,
+    excerpt,
     author->{
       name,
       image,
@@ -47,6 +49,97 @@ async function getRelatedPosts(currentSlug: string) {
     tags: ["post"],
   });
   return result.data;
+}
+
+// Generate dynamic metadata for each blog post
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      description: "The requested blog post could not be found.",
+    };
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001";
+  const postUrl = `${baseUrl}/blog/${post.slug.current}`;
+
+  return {
+    title: `${post.title} | Red Lotus International`,
+    description:
+      post.excerpt ||
+      `Read ${post.title} on Red Lotus International Blog - Premium coffee and matcha tea insights.`,
+    keywords: [
+      "coffee",
+      "matcha",
+      "tea",
+      "global trade",
+      "premium beans",
+      "Red Lotus International",
+      ...(post.categories?.map((cat: any) => cat.title) || []),
+    ],
+    authors: [{ name: post.author?.name || "Red Lotus Team" }],
+    openGraph: {
+      title: post.title,
+      description:
+        post.excerpt ||
+        `Read ${post.title} on Red Lotus International Blog - Premium coffee and matcha tea insights.`,
+      url: postUrl,
+      siteName: "Red Lotus International",
+      images: post.mainImage
+        ? [
+            {
+              url: urlFor(post.mainImage).width(1200).height(630).url(),
+              width: 1200,
+              height: 630,
+              alt: post.mainImage.alt || post.title,
+            },
+          ]
+        : [
+            {
+              url: `${baseUrl}/og-image.jpg`,
+              width: 1200,
+              height: 630,
+              alt: "Red Lotus International - Global Trade Solutions",
+            },
+          ],
+      type: "article",
+      publishedTime: post.publishedAt,
+      authors: [post.author?.name || "Red Lotus Team"],
+      tags: post.categories?.map((cat: any) => cat.title) || [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description:
+        post.excerpt ||
+        `Read ${post.title} on Red Lotus International Blog - Premium coffee and matcha tea insights.`,
+      images: post.mainImage
+        ? [urlFor(post.mainImage).width(1200).height(630).url()]
+        : [`${baseUrl}/og-image.jpg`],
+      creator: "@redlotusintl",
+    },
+    alternates: {
+      canonical: postUrl,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+  };
 }
 
 export default async function BlogPostPage({
