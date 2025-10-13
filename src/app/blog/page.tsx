@@ -65,41 +65,49 @@ export default async function BlogPage() {
                 )}
 
                 <div className="p-6">
-                  <div className="mb-3 flex flex-wrap gap-2">
-                    {post.categories?.map((category: any) => (
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {post.categories?.slice(0, 2).map((category: any) => (
                       <span
                         key={category.title}
-                        className="bg-brand-success-light text-brand-success-dark rounded-full px-2 py-1 text-xs"
+                        className="rounded-full border border-emerald-400/20 bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-md"
                       >
                         {category.title}
                       </span>
                     ))}
                   </div>
 
-                  <h2 className="mb-2 line-clamp-2 text-xl font-semibold text-gray-900">
+                  <h2 className="mb-3 line-clamp-2 text-xl font-semibold text-gray-900">
                     {post.title}
                   </h2>
 
                   <div className="mb-4 flex items-center text-sm text-gray-500">
-                    {post.author?.image && (
-                      <div className="relative mr-3 h-8 w-8">
+                    {post.author?.image ? (
+                      <div className="relative mr-3 h-8 w-8 flex-shrink-0">
                         <Image
                           src={urlFor(post.author.image)
                             .width(32)
                             .height(32)
                             .url()}
-                          alt={post.author.name}
+                          alt={post.author.name || "Author"}
                           fill
                           className="rounded-full object-cover"
                         />
                       </div>
+                    ) : (
+                      <div className="mr-3 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-medium text-white">
+                        {post.author?.name?.charAt(0) || "R"}
+                      </div>
                     )}
-                    <span>By {post.author?.name || "Red Lotus Team"}</span>
-                    {post.publishedAt && (
-                      <span className="ml-2">
-                        • {new Date(post.publishedAt).toLocaleDateString()}
+                    <div className="flex flex-col">
+                      <span className="font-medium text-gray-700">
+                        {post.author?.name || "Red Lotus Team"}
                       </span>
-                    )}
+                      {post.publishedAt && (
+                        <span className="text-xs text-gray-500">
+                          {new Date(post.publishedAt).toLocaleDateString()}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
                   <Link
