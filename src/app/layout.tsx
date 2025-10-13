@@ -2,6 +2,7 @@ import CrispChat from "@/components/admin/crisp-chat";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SanityLive } from "@/sanity/lib/live";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -126,6 +127,7 @@ export default function RootLayout({
           </div>
           <CrispChat />
         </ThemeProvider>
+        <SanityLive />
       </body>
     </html>
   );
