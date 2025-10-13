@@ -1,6 +1,6 @@
 import { portableTextComponents } from "@/lib/portableText";
-import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import { sanityFetch } from "@/sanity/lib/live";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,7 +25,8 @@ async function getPost(slug: string) {
     body
   }`;
 
-  return await client.fetch(query, { slug });
+  const result = await sanityFetch({ query, params: { slug }, tags: ["post"] });
+  return result.data;
 }
 
 async function getRelatedPosts(currentSlug: string) {
@@ -40,7 +41,12 @@ async function getRelatedPosts(currentSlug: string) {
     }
   }`;
 
-  return await client.fetch(query, { slug: currentSlug });
+  const result = await sanityFetch({
+    query,
+    params: { slug: currentSlug },
+    tags: ["post"],
+  });
+  return result.data;
 }
 
 export default async function BlogPostPage({
@@ -76,7 +82,7 @@ export default async function BlogPostPage({
               {post.categories?.map((category: any) => (
                 <span
                   key={category.title}
-                  className="bg-brand-success-light text-brand-success-dark rounded-full px-3 py-1 text-sm"
+                  className="rounded-full border border-emerald-400/20 bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1.5 text-sm font-semibold text-white shadow-md"
                 >
                   {category.title}
                 </span>

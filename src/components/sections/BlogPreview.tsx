@@ -11,7 +11,8 @@ async function getLatestPosts() {
     publishedAt,
     mainImage,
     author->{
-      name
+      name,
+      image
     },
     categories[]->{
       title
@@ -60,28 +61,49 @@ export default async function BlogPreview() {
               )}
 
               <div className="p-6">
-                <div className="mb-3 flex flex-wrap gap-2">
+                <div className="mb-4 flex flex-wrap gap-2">
                   {post.categories?.slice(0, 2).map((category: any) => (
                     <span
                       key={category.title}
-                      className="bg-brand-success-light text-brand-success-dark rounded-full px-2 py-1 text-xs"
+                      className="rounded-full border border-emerald-400/20 bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1.5 text-xs font-semibold text-white shadow-md"
                     >
                       {category.title}
                     </span>
                   ))}
                 </div>
 
-                <h3 className="mb-2 line-clamp-2 text-xl font-semibold text-gray-900">
+                <h3 className="mb-3 line-clamp-2 text-xl font-semibold text-gray-900">
                   {post.title}
                 </h3>
 
                 <div className="mb-4 flex items-center text-sm text-gray-500">
-                  <span>By {post.author?.name || "Red Lotus Team"}</span>
-                  {post.publishedAt && (
-                    <span className="ml-2">
-                      • {new Date(post.publishedAt).toLocaleDateString()}
-                    </span>
+                  {post.author?.image ? (
+                    <div className="relative mr-3 h-8 w-8 flex-shrink-0">
+                      <Image
+                        src={urlFor(post.author.image)
+                          .width(32)
+                          .height(32)
+                          .url()}
+                        alt={post.author.name || "Author"}
+                        fill
+                        className="rounded-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="bg-brand-success mr-3 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-xs font-medium text-white">
+                      {post.author?.name?.charAt(0) || "R"}
+                    </div>
                   )}
+                  <div className="flex flex-col">
+                    <span className="font-medium text-gray-700">
+                      {post.author?.name || "Red Lotus Team"}
+                    </span>
+                    {post.publishedAt && (
+                      <span className="text-xs text-gray-500">
+                        {new Date(post.publishedAt).toLocaleDateString()}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <Link

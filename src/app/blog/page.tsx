@@ -1,5 +1,5 @@
-import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
+import { sanityFetch } from "@/sanity/lib/live";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,7 +20,8 @@ async function getPosts() {
     excerpt
   }`;
 
-  return await client.fetch(query);
+  const result = await sanityFetch({ query, tags: ["post"] });
+  return result.data;
 }
 
 export default async function BlogPage() {
