@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 interface HeroProps {
   title?: string;
@@ -21,6 +22,50 @@ export function Hero({
   secondaryButtonText = "View Services",
   secondaryButtonHref = "/services",
 }: HeroProps) {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [showPoster, setShowPoster] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Optimized Cloudinary URLs
+  const videoSrc =
+    "https://res.cloudinary.com/isaacdev/video/upload/f_auto,q_auto:low,vc_auto,w_1920,h_1080,ac_none,so_0/v1760293851/redlotus_swtl6w.mp4";
+  const posterSrc = `https://res.cloudinary.com/isaacdev/image/upload/f_auto,q_auto:eco,w_1920,h_1080,c_fill,g_auto/pexels-adam-lukac-254247-773958_ee8fpg.jpg`;
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Start loading video when it comes into view
+            video.load();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleVideoLoad = () => {
+    setIsVideoLoaded(true);
+    setShowPoster(false); // Hide poster once video is ready
+  };
+
+  const handleVideoPlay = () => {
+    setIsVideoPlaying(true);
+  };
+
+  const handleVideoError = () => {
+    console.log("Video failed to load, falling back to poster");
+    setIsVideoLoaded(false);
+  };
   return (
     <section className="from-brand-warm relative overflow-hidden bg-gradient-to-br to-white py-20 lg:py-32">
       {/* Fallback Background */}
@@ -29,34 +74,33 @@ export function Hero({
       {/* Video Background */}
       <div className="absolute inset-0 z-0 h-full w-full">
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
-          preload="auto"
-          className="h-full w-full scale-110 object-cover opacity-90"
-          poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect width='1920' height='1080' fill='%23f3f4f6'/%3E%3C/svg%3E"
-          onError={(e) => {
-            console.log("Video failed to load:", e);
-          }}
-          onLoadStart={() => {
-            console.log("Video started loading");
-          }}
-          onCanPlay={() => {
-            console.log("Video can play");
-          }}
-          onLoadedData={() => {
-            console.log("Video data loaded");
-          }}
-          onPlay={() => {
-            console.log("Video is playing");
-          }}
+          preload="none"
+          className={`h-full w-full scale-110 object-cover opacity-90 transition-opacity duration-500 ${
+            isVideoLoaded ? "opacity-90" : "opacity-0"
+          }`}
+          poster={posterSrc}
+          onLoadedData={handleVideoLoad}
+          onPlay={handleVideoPlay}
+          onError={handleVideoError}
         >
-          <source
-            src="https://res.cloudinary.com/isaacdev/video/upload/f_auto,q_auto:eco,vc_auto,w_1920,ac_none/v1760293851/redlotus_swtl6w.mp4"
-            type="video/mp4"
-          />
+          <source src={videoSrc} type="video/mp4" />
         </video>
+
+        {/* Poster image fallback - only show when needed */}
+        {showPoster && !isVideoLoaded && (
+          <div
+            className="absolute inset-0 h-full w-full bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url(${posterSrc})`,
+            }}
+          />
+        )}
+
         {/* Very subtle overlay for text readability */}
         <div className="from-brand-warm/15 to-brand-warm/15 absolute inset-0 bg-gradient-to-br via-white/10"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/5 via-transparent to-black/2"></div>
