@@ -46,10 +46,26 @@ export const Footer: React.FC = () => {
   };
 
   const socialLinks = [
-    { name: "Facebook", href: "#", icon: Facebook },
-    { name: "Twitter", href: "#", icon: Twitter },
-    { name: "LinkedIn", href: "#", icon: Linkedin },
-    { name: "Instagram", href: "#", icon: Instagram },
+    {
+      name: "Facebook",
+      href: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK || "#",
+      icon: Facebook,
+    },
+    {
+      name: "Twitter",
+      href: process.env.NEXT_PUBLIC_SOCIAL_TWITTER || "#",
+      icon: Twitter,
+    },
+    {
+      name: "LinkedIn",
+      href: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN || "#",
+      icon: Linkedin,
+    },
+    {
+      name: "Instagram",
+      href: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM || "#",
+      icon: Instagram,
+    },
   ];
 
   return (
@@ -64,7 +80,10 @@ export const Footer: React.FC = () => {
                 <span className="text-brand-primary text-xl font-bold">RL</span>
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Red Lotus International</h3>
+                <h3 className="text-2xl font-bold">
+                  {process.env.NEXT_PUBLIC_COMPANY_NAME ||
+                    "Red Lotus International"}
+                </h3>
                 <p className="text-gray-600">Global Trade Solutions</p>
               </div>
             </div>
@@ -205,8 +224,10 @@ export const Footer: React.FC = () => {
             </div>
             <div className="flex flex-col items-center space-y-2 md:flex-row md:space-y-0 md:space-x-6">
               <p className="text-sm text-gray-400">
-                © {currentYear} Red Lotus International LLC. All rights
-                reserved.
+                © {currentYear}{" "}
+                {process.env.NEXT_PUBLIC_COMPANY_NAME ||
+                  "Red Lotus International LLC"}
+                . All rights reserved.
               </p>
               <div className="flex space-x-4">
                 {footerNavigation.support.map((item) => (
