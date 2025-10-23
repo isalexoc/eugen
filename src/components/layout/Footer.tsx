@@ -128,6 +128,8 @@ export const Footer: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="hover:text-brand-secondary text-gray-400 transition-colors duration-200"
                     aria-label={item.name}
                   >
